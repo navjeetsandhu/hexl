@@ -74,6 +74,8 @@ TEST_P(DegreeModulusInputOutput, API) {
   uint64_t N = std::get<0>(GetParam());
   uint64_t modulus = std::get<1>(GetParam());
 
+  std::cout << "N: " << N << " modulus: " << modulus << '\n';
+
   const std::vector<uint64_t> input_copy = std::get<2>(GetParam());
   std::vector<uint64_t> exp_output = std::get<3>(GetParam());
   std::vector<uint64_t> input = input_copy;
@@ -82,9 +84,28 @@ TEST_P(DegreeModulusInputOutput, API) {
   // In-place Fwd NTT
   NTT ntt(N, modulus);
 
+  std::cout << "Input:\n";
+  for(const auto& number : input){
+    std::cout << number << ' ';
+  }
+  std::cout << '\n';
+
   // Test round-trip
   ntt.ComputeForward(out_buffer.data(), input.data(), 1, 1);
+  std::cout << "ComputeForward Output:\n";
+  for(const auto& number : out_buffer){
+    std::cout << number << ' ';
+  }
+  std::cout << '\n';
+
   ntt.ComputeInverse(input.data(), out_buffer.data(), 1, 1);
+
+  std::cout << "ComputeInverse Output:\n";
+  for(const auto& number : input){
+    std::cout << number << ' ';
+  }
+  std::cout << '\n';
+
   AssertEqual(input, input_copy);
 
 }
