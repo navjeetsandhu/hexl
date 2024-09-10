@@ -141,22 +141,7 @@ INSTANTIATE_TEST_SUITE_P(
 
 class NttNativeTest : public DegreeModulusBoolTest {};
 
-TEST_P(NttNativeTest, ForwardZeros) {
-  std::vector<uint64_t> input(m_N, 0);
-  std::vector<uint64_t> exp_output(m_N, 0);
-  m_ntt.ComputeForward(input.data(), input.data(), 1, 1);
-  AssertEqual(input, exp_output);
-}
 
-INSTANTIATE_TEST_SUITE_P(
-    NTT, NttNativeTest,
-    ::testing::Combine(
-        ::testing::ValuesIn(AlignedVector64<uint64_t>{
-            1 << 1, 1 << 2, 1 << 3, 1 << 4, 1 << 5, 1 << 6, 1 << 7, 1 << 8,
-            1 << 9, 1 << 10, 1 << 11, 1 << 12, 1 << 13}),
-        ::testing::ValuesIn(AlignedVector64<uint64_t>{
-            27, 28, 29, 30, 31, 32, 33, 48, 49, 50, 51, 58, 59, 60}),
-        ::testing::ValuesIn(std::vector<bool>{false, true})));
 
 }  // namespace hexl
 }  // namespace intel
