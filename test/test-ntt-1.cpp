@@ -2,15 +2,10 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #include <gtest/gtest.h>
-
 #include <tuple>
 #include <vector>
-
-#include "hexl/logging/logging.hpp"
 #include "hexl/ntt/ntt.hpp"
-#include "hexl/number-theory/number-theory.hpp"
 #include "hexl/util/defines.hpp"
-#include "ntt/ntt-internal.hpp"
 #include "test/test-ntt-util.hpp"
 #include "test/test-util.hpp"
 #include "util/cpu-features.hpp"
@@ -104,7 +99,7 @@ TEST_P(DegreeModulusInputOutput, API) {
   for(const auto& number : input){
     std::cout << number << ' ';
   }
-  std::cout << '\n';
+  std::cout << '\n' << '\n';
 
   AssertEqual(input, input_copy);
 
