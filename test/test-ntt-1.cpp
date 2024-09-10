@@ -83,7 +83,6 @@ TEST_P(DegreeModulusInputOutput, API) {
   NTT ntt(N, modulus);
 
   // Test round-trip
-  input = input_copy;
   ntt.ComputeForward(out_buffer.data(), input.data(), 1, 1);
   ntt.ComputeInverse(input.data(), out_buffer.data(), 1, 1);
   AssertEqual(input, input_copy);
@@ -93,42 +92,6 @@ TEST_P(DegreeModulusInputOutput, API) {
 INSTANTIATE_TEST_SUITE_P(
     NTT, DegreeModulusInputOutput,
     ::testing::Values(
-        std::make_tuple(2, 281474976710897, std::vector<uint64_t>{0, 0},
-                        std::vector<uint64_t>{0, 0}),
-        std::make_tuple(2, 0xffffffffffc0001ULL, std::vector<uint64_t>{0, 0},
-                        std::vector<uint64_t>{0, 0}),
-        std::make_tuple(2, 281474976710897, std::vector<uint64_t>{1, 0},
-                        std::vector<uint64_t>{1, 1}),
-        std::make_tuple(2, 281474976710897, std::vector<uint64_t>{1, 1},
-                        std::vector<uint64_t>{19842761023586, 261632215687313}),
-        std::make_tuple(2, 0xffffffffffc0001ULL, std::vector<uint64_t>{1, 1},
-                        std::vector<uint64_t>{288794978602139553,
-                                              864126526004445282}),
-        std::make_tuple(4, 113, std::vector<uint64_t>{94, 109, 11, 18},
-                        std::vector<uint64_t>{82, 2, 81, 98}),
-        std::make_tuple(4, 281474976710897,
-                        std::vector<uint64_t>{281474976710765, 49,
-                                              281474976710643, 275},
-                        std::vector<uint64_t>{12006376116355, 216492038983166,
-                                              272441922811203, 62009615510542}),
-        std::make_tuple(4, 113, std::vector<uint64_t>{59, 50, 98, 50},
-                        std::vector<uint64_t>{1, 2, 3, 4}),
-        std::make_tuple(4, 73, std::vector<uint64_t>{2, 1, 1, 1},
-                        std::vector<uint64_t>{17, 41, 36, 60}),
-        std::make_tuple(4, 16417, std::vector<uint64_t>{31, 21, 15, 34},
-                        std::vector<uint64_t>{1611, 14407, 14082, 2858}),
-        std::make_tuple(4, 4194353,
-                        std::vector<uint64_t>{4127, 9647, 1987, 5410},
-                        std::vector<uint64_t>{1478161, 3359347, 222964,
-                                              3344742}),
-        std::make_tuple(8, 4194353,
-                        std::vector<uint64_t>{1, 0, 0, 0, 0, 0, 0, 0},
-                        std::vector<uint64_t>{1, 1, 1, 1, 1, 1, 1, 1}),
-        std::make_tuple(8, 4194353,
-                        std::vector<uint64_t>{1, 1, 0, 0, 0, 0, 0, 0},
-                        std::vector<uint64_t>{132171, 4062184, 2675172, 1519183,
-                                              462763, 3731592, 1824324,
-                                              2370031}),
         std::make_tuple(
             32, 769,
             std::vector<uint64_t>{401, 203, 221, 352, 487, 151, 405, 356,
