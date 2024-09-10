@@ -1,23 +1,18 @@
 # Copyright (C) 2020 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 
-# Navjeet
-#set(NATIVE_TEST_SRC main.cpp
-#    test-aligned-vector.cpp
-#    test-number-theory.cpp
-#    test-eltwise-add-mod.cpp
-#    test-eltwise-cmp-add.cpp
-#    test-eltwise-cmp-sub-mod.cpp
-#    test-eltwise-fma-mod.cpp
-#    test-eltwise-mult-mod.cpp
-#    test-eltwise-reduce-mod.cpp
-#    test-eltwise-sub-mod.cpp
-#    test-ntt.cpp
-#    test-util-internal.cpp
-#)
-
 set(NATIVE_TEST_SRC main.cpp
-        test-ntt-1.cpp
+    test-aligned-vector.cpp
+    test-number-theory.cpp
+    test-eltwise-add-mod.cpp
+    test-eltwise-cmp-add.cpp
+    test-eltwise-cmp-sub-mod.cpp
+    test-eltwise-fma-mod.cpp
+    test-eltwise-mult-mod.cpp
+    test-eltwise-reduce-mod.cpp
+    test-eltwise-sub-mod.cpp
+    test-ntt.cpp
+    test-util-internal.cpp
 )
 
 if (HEXL_EXPERIMENTAL)
@@ -43,10 +38,7 @@ set(AVX512_TEST_SRC
     test-ntt-avx512.cpp
 )
 
-# Navjeet
-#set(TEST_SRC "${NATIVE_TEST_SRC};${AVX512_TEST_SRC}")
-set(TEST_SRC "${NATIVE_TEST_SRC}")
-
+set(TEST_SRC "${NATIVE_TEST_SRC};${AVX512_TEST_SRC}")
 
 add_executable(unit-test ${TEST_SRC})
 
