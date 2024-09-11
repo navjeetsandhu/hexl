@@ -41,15 +41,45 @@ int  readFromFile(std::vector<uint64_t>& data, bool flag = false) {
   return 0;
 }
 
+constexpr uint64_t lvl1P = 1073707009;
+static constexpr std::uint32_t nbit = 10;
+static constexpr std::uint32_t lvl1param_n = 1 << nbit;  // dimension
+
 auto getData() {
-  constexpr uint64_t lvl1P = 1073707009;
-  static constexpr std::uint32_t nbit = 10;
-  static constexpr std::uint32_t n = 1 << nbit;  // dimension
   std::vector<uint64_t> data;
   readFromFile(data);
-  return std::make_tuple(n, lvl1P, data, data);
+  return std::make_tuple(lvl1param_n, lvl1P, data, data);
 }
 
+auto getData0() {
+  return std::make_tuple(
+      32, 769,
+      std::vector<uint64_t>{401, 203, 221, 352, 487, 151, 405, 356,
+                            343, 424, 635, 757, 457, 280, 624, 353,
+                            496, 353, 624, 280, 457, 757, 635, 424,
+                            343, 356, 405, 151, 487, 352, 221, 203},
+      std::vector<uint64_t>{1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11,
+                            12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+                            23, 24, 25, 26, 27, 28, 29, 30, 31, 32});
+}
+
+
+auto getData1() {
+  std::vector<uint64_t> data;
+  unsigned int i;
+  readFromFile(data);
+
+  for(i=0;i<10;i++){
+    std::cout << data[i] << ' ';
+  }
+  std::cout << '\n';
+
+  for (i = 0; i < lvl1param_n; i++)
+    //data[i] = (lvl1P * data[i]);
+    data[i] = (lvl1P * data[i]) >> 32;
+    //data[i] = (lvl1P * data[i]) >> 30;
+  return std::make_tuple(lvl1param_n, lvl1P, data, data);
+}
 
 
 namespace allocators {
@@ -119,7 +149,7 @@ TEST_P(DegreeModulusInputOutput, API) {
   // In-place Fwd NTT
   NTT ntt(N, modulus);
 
-  int i;
+  unsigned int i;
   std::cout << "Input:\n";
   for(i=0;i<10;i++){
     std::cout << input[i] << ' ';
@@ -142,7 +172,19 @@ TEST_P(DegreeModulusInputOutput, API) {
   for(i=0;i<10;i++){
     std::cout << out_buffer_final[i] << ' ';
   }
-  std::cout << '\n' << '\n';
+  std::cout << '\n';
+
+  for (i = 0; i < lvl1param_n; i++)
+    //out_buffer_final[i] = out_buffer_final[i] / lvl1P;
+    out_buffer_final[i] = (out_buffer_final[i] <<  32)/ lvl1P;
+    //out_buffer_final[i] = (out_buffer_final[i] <<  30)/ lvl1P;
+
+  std::cout << "After division:\n";
+
+  for(i=0;i<10;i++){
+    std::cout << out_buffer_final[i] << ' ';
+  }
+  std::cout <<'\n' << "End" << '\n' << '\n';
 
   //AssertEqual(input, exp_output);
 
@@ -151,16 +193,8 @@ TEST_P(DegreeModulusInputOutput, API) {
 INSTANTIATE_TEST_SUITE_P(
     NTT, DegreeModulusInputOutput,
     ::testing::Values(
-        getData(),
-        std::make_tuple(
-            32, 769,
-            std::vector<uint64_t>{401, 203, 221, 352, 487, 151, 405, 356,
-                                  343, 424, 635, 757, 457, 280, 624, 353,
-                                  496, 353, 624, 280, 457, 757, 635, 424,
-                                  343, 356, 405, 151, 487, 352, 221, 203},
-            std::vector<uint64_t>{1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11,
-                                  12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-                                  23, 24, 25, 26, 27, 28, 29, 30, 31, 32})));
+        getData1()
+));
 
 class NttNativeTest : public DegreeModulusBoolTest {};
 
