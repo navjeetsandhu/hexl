@@ -172,7 +172,7 @@ TEST_P(DegreeModulusInputOutput, API) {
   for(i=0;i<10;i++){
     std::cout << out_buffer_final[i] << ' ';
   }
-  std::cout << '\n';
+  std::cout << '\n' << '\n'<< '\n';
 
   for (i = 0; i < lvl1param_n; i++)
     //out_buffer_final[i] = out_buffer_final[i] / lvl1P;
@@ -193,7 +193,7 @@ TEST_P(DegreeModulusInputOutput, API) {
 INSTANTIATE_TEST_SUITE_P(
     NTT, DegreeModulusInputOutput,
     ::testing::Values(
-        getData1()
+        getData0()
 ));
 
 class NttNativeTest : public DegreeModulusBoolTest {};
